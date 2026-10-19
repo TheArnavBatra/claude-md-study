@@ -10,7 +10,7 @@ Independent research project by Arnav Batra (UW–Madison), mentored by Prof. Ka
 3. **Correlational:** Do content patterns line up with repo characteristics (language, activity, test presence)? These are associations, not causal claims.
 
 ## Method (summary)
-Scrape ~5,000 root-level `CLAUDE.md` files via the GitHub API, collect repo metadata, dedupe and clean, embed and cluster the files, extract rule-based features, then join with repo metadata and run regressions.
+Scrape ~1,000 root-level `CLAUDE.md` files via the GitHub API, collect repo metadata, dedupe and clean, embed and cluster the files, extract rule-based features, then join with repo metadata and run regressions.
 
 ## Notebooks
 | Notebook | Phase |

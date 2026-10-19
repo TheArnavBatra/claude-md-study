@@ -9,7 +9,7 @@ Empirical study of `CLAUDE.md` files scraped from public GitHub repos. Independe
 3. **Correlational** — do specific patterns line up with repo characteristics (language, activity, test presence)? Framed as associations, not causes.
 
 ## Method
-- Scrape ~5,000 `CLAUDE.md` files from public GitHub via the code-search API, paginated past the 1k-result cap by star/date buckets
+- Scrape ~1,000 `CLAUDE.md` files from public GitHub via the code-search API, paginated past the 1k-result cap by star/date buckets
 - Save file content + repo metadata (stars, forks, language, created_at, last_push_at, size, has_ci, has_tests)
 - Dedupe, clean, basic descriptive stats
 - Embed each file (start with sentence-transformers `all-MiniLM-L6-v2`; fall back to OpenAI `text-embedding-3-small` if clusters are weak)
@@ -40,7 +40,7 @@ Empirical study of `CLAUDE.md` files scraped from public GitHub repos. Independe
 - Notebooks: Jupyter
 
 ## Scope guardrails
-- **In scope v1**: only `CLAUDE.md` files at repo root; ~5k unique files after dedup; descriptive + correlational analysis
+- **In scope v1**: only `CLAUDE.md` files at repo root; ~1k unique files after dedup; descriptive + correlational analysis
 - **Out of scope v1**: `.cursorrules`, `AGENTS.md`, `.windsurfrules`, `copilot-instructions.md`; web dashboard; LLM-based feature extraction (regex and rules first); causal claims; fine-tuning or training a model
 - **Hard no**: scope creep. If a feature isn't in this doc, it's a v2 candidate, not a v1 addition.
 
@@ -61,7 +61,7 @@ Empirical study of `CLAUDE.md` files scraped from public GitHub repos. Independe
 - Commit after every working step; use branches for experiments
 - Prefer boring, well-tested libraries over clever ones
 - Document every scraping decision in the dataset card as you go, not at the end
-- No premature optimization — if the full pipeline runs in under an hour on 5k files, that's fine
+- No premature optimization — if the full pipeline runs in under an hour on 1k files, that's fine
 
 ## Ethical and legal
 - Public repos only; respect GitHub rate limits
