@@ -1,6 +1,6 @@
 # CLAUDE.md Corpus Study
 
-An empirical study of `CLAUDE.md` files in public GitHub repositories. The goal is the first public dataset and taxonomy of these files, plus an analysis of how their contents relate to repo characteristics.
+An empirical study of `CLAUDE.md` and `AGENTS.md` files in public GitHub repositories. The goal is the first public dataset and taxonomy of these files, plus an analysis of how their contents relate to repo characteristics.
 
 Independent research project by Arnav Batra (UW–Madison), mentored by Prof. Kaiser Pister.
 
@@ -10,7 +10,7 @@ Independent research project by Arnav Batra (UW–Madison), mentored by Prof. Ka
 3. **Correlational:** Do content patterns line up with repo characteristics (language, activity, test presence)? These are associations, not causal claims.
 
 ## Method (summary)
-Scrape ~1,000 root-level `CLAUDE.md` files via the GitHub API, collect repo metadata, dedupe and clean, embed and cluster the files, extract rule-based features, then join with repo metadata and run regressions.
+Scrape ~1,000 repos via the GitHub API, using the root `CLAUDE.md` (or the `AGENTS.md` when there is no `CLAUDE.md`, following `CLAUDE.md` → `AGENTS.md` redirects), collect repo metadata, dedupe and clean, embed and cluster the files, extract rule-based features, then join with repo metadata and run regressions.
 
 ## Notebooks
 | Notebook | Phase |
@@ -23,7 +23,7 @@ Scrape ~1,000 root-level `CLAUDE.md` files via the GitHub API, collect repo meta
 | `06_correlations.ipynb` | Joins, cross-tabs, regressions |
 
 ## Status
-Planning. See [CLAUDE.md](CLAUDE.md) for the full project brief, scope, and timeline.
+Phase 1: scraper smoke test done; extending it to `AGENTS.md`. See [CLAUDE.md](CLAUDE.md) for the full project brief, scope, and timeline.
 
 ## Data
 The dataset will be released on HuggingFace as `claude-md-corpus` with a dataset card documenting scraping decisions, limitations, and biases (English-dominant, public repos only, a snapshot in time).
