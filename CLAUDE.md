@@ -9,7 +9,7 @@ Empirical study of `CLAUDE.md` (and `AGENTS.md`) files scraped from public GitHu
 3. **Correlational** — do specific patterns line up with repo characteristics (language, activity, test presence)? Framed as associations, not causes.
 
 ## Method
-- Scrape ~1,000 repos from public GitHub via the code-search API, paginated past the 1k-result cap by size/star/date buckets. The sample is mostly repos with a `CLAUDE.md`, plus a smaller share of `AGENTS.md`-only repos as the fallback group (`primary_file` per repo; share to confirm with Kaiser); fetch both files when a repo has both
+- Scrape ~1,000 repos from public GitHub via the code-search API, paginated past the 1k-result cap by size/star/date buckets. The sample is mostly repos with a `CLAUDE.md`, plus `AGENTS.md`-only repos as the fallback group (`primary_file` per repo; no fixed quota, they appear in their natural proportion); fetch both files when a repo has both
 - Save file content + repo metadata (stars, forks, language, created_at, last_push_at, size, has_ci, has_tests)
 - Dedupe, clean, basic descriptive stats
 - Embed each file (start with sentence-transformers `all-MiniLM-L6-v2`; fall back to OpenAI `text-embedding-3-small` if clusters are weak)
@@ -40,8 +40,8 @@ Empirical study of `CLAUDE.md` (and `AGENTS.md`) files scraped from public GitHu
 - Notebooks: Jupyter
 
 ## Scope guardrails
-- **In scope v1**: only `CLAUDE.md` and `AGENTS.md` files at repo root (`AGENTS.md` added with Kaiser's approval, 2026-11-04); ~1k unique repos after dedup (target size and `AGENTS.md`-only share to confirm with Kaiser); descriptive + correlational analysis
-- **Resolution rule (one instruction file per repo)**: `CLAUDE.md` takes priority. If the repo has no `CLAUDE.md`, use its `AGENTS.md`. Record which one was used in `resolved_from`.
+- **In scope v1**: only `CLAUDE.md` and `AGENTS.md` files at repo root (`AGENTS.md` added with Kaiser's approval, 2026-11-04); ~1k unique repos after dedup (confirmed with Kaiser); non-English files excluded; `AGENTS.md` is a covariate (`primary_file` / `resolved_from`), not a fourth research question; descriptive + correlational analysis
+- **Resolution rule (one instruction file per repo)**: `CLAUDE.md` takes priority. Go to `AGENTS.md` only when the repo has no `CLAUDE.md`, or its `CLAUDE.md` is a pointer file. Record which one was used in `resolved_from`.
 - **Redirects**: if a `CLAUDE.md` points to `AGENTS.md` (symlink, `@AGENTS.md` import, or a near-empty "see AGENTS.md" pointer), follow that one hop. Store `content_raw`, `redirects_to`, and `content_resolved`; analyze on resolved content and count each resolved text once. Do not chase other imports.
 - **Out of scope v1**: `.cursorrules`, `.windsurfrules`, `copilot-instructions.md`; web dashboard; LLM-based feature extraction (regex and rules first); causal claims; fine-tuning or training a model
 - **Hard no**: scope creep. If a feature isn't in this doc, it's a v2 candidate, not a v1 addition.
