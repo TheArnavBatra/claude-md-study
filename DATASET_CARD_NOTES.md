@@ -30,6 +30,12 @@ One public GitHub repo, with one resolved instruction-file text.
 - Stars: median 0, mean 20, max 5,330. Bins: 1,010 in 0-10, 91 in 10-100, 18 in 100-1000, 7 above 1000.
 - Size-bin check: the sample's share per size bin matches the population share to within about 0.1 percentage points.
 
+## Structure and tools (full run, from `03_descriptive`)
+- Structure: median 8 headings and 6 level-2 sections per file; median 1 fenced code block (41.7% of files have none); median code share 6% of non-blank lines; 1.5% of files have no headings; 26.6% contain a markdown table.
+- Common section themes (a heading matches a keyword): commands/build/setup 60%, architecture/structure 58%, code style/conventions 43%, rules/dos-and-don'ts 41%, workflow/git/PRs 32%, testing 32%, tech stack 22%.
+- Tools (keyword lexicon, matched anywhere in the file): 87% name at least one tool, median 2 per file. Most common: git 37%, npm 27%, docker 14%, MCP 14%, pytest 12%. By category: package/build 60%, version control 39%, lint/format 24%, testing 24%, infra/CI 20%.
+- Generated text: 19.7% of files (29.3% of the `CLAUDE.md` group, none of the `AGENTS.md`-only group) contain the default `/init` sentence "provides guidance to Claude Code", so they are partly default text. 2.4% contain the create-next-app `AGENTS.md` block ("This is NOT the Next.js you know"). "Claude Code" appears in 35% of files, but only 19.5% of files without the `/init` default mention it.
+
 ## Known limitations and biases
 - English-dominant; public repos only; a snapshot in time (scraped 2026-11-10).
 - The sample reflects the searchable population: about 90% of repos have under 10 stars and the median repo has 0. Findings describe typical repos, not popular ones. A star-balanced top-up is possible but not done.
