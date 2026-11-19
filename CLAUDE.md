@@ -9,30 +9,33 @@ Empirical study of `CLAUDE.md` (and `AGENTS.md`) files scraped from public GitHu
 3. **Correlational** — do specific patterns line up with repo characteristics (language, activity, test presence)? Framed as associations, not causes.
 
 ## Method
-- Scrape ~1,000 repos from public GitHub via the code-search API, paginated past the 1k-result cap by size/star/date buckets. The sample is mostly repos with a `CLAUDE.md`, plus `AGENTS.md`-only repos as the fallback group (`primary_file` per repo; no fixed quota, they appear in their natural proportion); fetch both files when a repo has both
+- Scrape ~1,000 repos from public GitHub via the code-search API, getting past the 1k-result cap with file-size buckets sampled in proportion to the population (code search has no star or date qualifier, so stars and dates are covariates). The sample is mostly repos with a `CLAUDE.md`, plus `AGENTS.md`-only repos as the fallback group (`primary_file` per repo; no fixed quota, they appear in their natural proportion); fetch both files when a repo has both
 - Save file content + repo metadata (stars, forks, language, created_at, last_push_at, size, has_ci, has_tests)
-- Dedupe, clean, basic descriptive stats
-- Embed each file (start with sentence-transformers `all-MiniLM-L6-v2`; fall back to OpenAI `text-embedding-3-small` if clusters are weak)
+- Dedupe, clean, descriptive stats (length, structure, section themes, tools, generated boilerplate; shares with 95% CIs)
+- Embed each file with OpenAI `text-embedding-3-large` (chosen over sentence-transformers for quality, 2026-11-16; file text is sent to OpenAI's API, which the dataset card must say)
 - Cluster with HDBSCAN (primary) and k-means (robustness check); hand-label clusters
 - Extract structured features per file: `has_persona`, `has_donts`, `has_commands`, `has_file_paths`, `mentioned_tools`, section counts, code-block counts
 - Join file features with repo metadata; cross-tabulate; run regressions (OLS for continuous outcomes, logistic for binary) with controls for language, repo age, size
 
-## Deliverables
-- Public dataset on HuggingFace (`claude-md-corpus`) with a proper dataset card
-- Six analysis notebooks in a public GitHub repo, one per phase:
-  - `01_scrape.ipynb`
-  - `02_clean.ipynb`
-  - `03_descriptive.ipynb`
-  - `04_clusters.ipynb`
-  - `05_features.ipynb`
-  - `06_correlations.ipynb`
-- Writeup on personal site (arnavbatra.com) summarizing key findings
+## Project phases
+The project ships in two phases (decided 2026-11-19). Each phase ends in something publishable on its own.
+
+**Phase 1: the corpus and what is in it (RQ1).**
+- Notebooks: `01_scrape.ipynb`, `02_clean.ipynb`, `03_descriptive.ipynb`
+- Deliverable: a blog post built only from Phase 1 results. Every number in it comes from `03_descriptive` (headline table in `results/phase1_key_findings.csv`, figures in `figures/`)
+- Status: notebooks done; blog post next
+
+**Phase 2: styles and associations (RQ2, RQ3).**
+- Notebooks: `04_clusters.ipynb`, `05_features.ipynb`, `06_correlations.ipynb`
+- Deliverables: public dataset on HuggingFace (`claude-md-corpus`) with a proper dataset card; a second writeup on the clusters and correlations
+
+All six notebooks live in the public GitHub repo. Writeups go on the personal site (arnavbatra.com) or another venue decided at publish time.
 
 ## Tech stack
 - Python 3.11+
 - Data: `pandas`, Parquet, SQLite
 - Scraping: `requests` + GitHub REST and code-search APIs; auth via personal access token
-- NLP: `sentence-transformers`, optionally `openai` embeddings
+- NLP: `openai` embeddings (`text-embedding-3-large`)
 - Clustering: `hdbscan`, `scikit-learn` (k-means), `umap-learn` for 2D viz
 - Stats: `statsmodels` for regressions, `scipy.stats` for tests
 - Viz: `matplotlib`, `seaborn`, `plotly`
@@ -47,15 +50,20 @@ Empirical study of `CLAUDE.md` (and `AGENTS.md`) files scraped from public GitHu
 - **Hard no**: scope creep. If a feature isn't in this doc, it's a v2 candidate, not a v1 addition.
 
 ## Timeline
-~7 hrs/week over 10 weeks (~70 hrs total). Phases:
-1. Weeks 1–2: scraper + cleaned data
-2. Week 3: first check-in with Kaiser
-3. Weeks 4–5: embedding, clustering, feature extraction
-4. Week 6: repo metadata joined
-5. Week 7: second check-in with Kaiser
-6. Week 8: correlational analysis
-7. Week 9: writeup + HuggingFace release
-8. Week 10: buffer + third check-in
+~7 hrs/week over 10 weeks (~70 hrs total).
+
+Phase 1
+1. Weeks 1–2: scraper + cleaned data (done)
+2. Week 3: first check-in with Kaiser; descriptive stats (done)
+3. Next: Phase 1 blog post
+
+Phase 2
+4. Weeks 4–5: embedding, clustering, feature extraction
+5. Week 6: repo metadata joined
+6. Week 7: second check-in with Kaiser
+7. Week 8: correlational analysis
+8. Week 9: Phase 2 writeup + HuggingFace release
+9. Week 10: buffer + third check-in
 
 ## Working style
 - Notebooks first; refactor to scripts only when a step is stable

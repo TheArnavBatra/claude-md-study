@@ -1,0 +1,76 @@
+scraped,section,finding,value,ci_low,ci_high,kind
+2026-11-10,corpus,repos in the cleaned corpus,1126.0,,,count
+2026-11-10,corpus,repos with only an AGENTS.md (no CLAUDE.md),0.327708703374778,0.3009185472601388,0.35567048256492695,share
+2026-11-10,corpus,repos whose CLAUDE.md just points to AGENTS.md,0.08259325044404973,0.06789891960205076,0.10012604956176833,share
+2026-11-10,length,median words per file,614.0,,,median
+2026-11-10,length,"median words, CLAUDE.md text",647.0,,,median
+2026-11-10,length,"median words, AGENTS.md text",525.0,,,median
+2026-11-10,length,90th percentile words per file,2498.0,,,quantile
+2026-11-10,structure,median headings per file,8.0,,,median
+2026-11-10,structure,median level-2 sections per file,6.0,,,median
+2026-11-10,structure,files with no fenced code block,0.41651865008880995,0.38805505682421415,0.4455499370085496,share
+2026-11-10,structure,"files with no code at all (no block, no inline code)",0.03463587921847247,0.025438983349853263,0.04699736524980886,share
+2026-11-10,structure,median share of lines that are code,0.05923489278752436,,,median
+2026-11-10,themes,"files with a section on: Commands: build, run, set up",0.5763765541740675,0.5473025643027571,0.6049311647438633,share
+2026-11-10,themes,files with a section on: Architecture and code layout,0.5870337477797514,0.5580261046687119,0.6154495400588323,share
+2026-11-10,themes,files with a section on: Project overview and purpose,0.3463587921847247,0.3191315685341127,0.37463081373256973,share
+2026-11-10,themes,files with a section on: Code style and conventions,0.4769094138543517,0.44786363992976186,0.5061122094282366,share
+2026-11-10,themes,files with a section on: Rules: dos and don'ts,0.4404973357015986,0.4117508484747131,0.46964845564012925,share
+2026-11-10,themes,files with a section on: Testing,0.31793960923623443,0.2913977562458285,0.3457195175383904,share
+2026-11-10,themes,"files with a section on: Workflow: git, PRs, deploys",0.35701598579040855,0.3295601832182734,0.3854441147293327,share
+2026-11-10,themes,files with a section on: Tech stack and dependencies,0.216696269982238,0.193616632245203,0.24170244257024018,share
+2026-11-10,themes,files with a section on: Environment and configuration,0.19715808170515098,0.1749659227045213,0.22140964002922833,share
+2026-11-10,themes (no /init default),"files without the /init default with a section on: Commands: build, run, set up",0.4922566371681416,0.4597680085283248,0.5248107990522046,share
+2026-11-10,themes (no /init default),files without the /init default with a section on: Architecture and code layout,0.49889380530973454,0.4663732861203293,0.5314236863911748,share
+2026-11-10,themes (no /init default),files without the /init default with a section on: Project overview and purpose,0.24446902654867256,0.21757251707832012,0.27352813307915225,share
+2026-11-10,themes (no /init default),files without the /init default with a section on: Code style and conventions,0.4502212389380531,0.41806750844111173,0.4827962545765776,share
+2026-11-10,themes (no /init default),files without the /init default with a section on: Rules: dos and don'ts,0.47345132743362833,0.44108407852756387,0.506043261748537,share
+2026-11-10,themes (no /init default),files without the /init default with a section on: Testing,0.29535398230088494,0.2665311483988291,0.32590876622944953,share
+2026-11-10,themes (no /init default),"files without the /init default with a section on: Workflow: git, PRs, deploys",0.35398230088495575,0.32348662836017766,0.38571374315837786,share
+2026-11-10,themes (no /init default),files without the /init default with a section on: Tech stack and dependencies,0.1902654867256637,0.16600950356634905,0.2171427996548296,share
+2026-11-10,themes (no /init default),files without the /init default with a section on: Environment and configuration,0.1504424778761062,0.12861878908153332,0.17522452455379692,share
+2026-11-10,anatomy,"median position of first 'Project overview and purpose' heading (0 = top, 1 = bottom)",0.0,,,median
+2026-11-10,anatomy,"median position of first 'Commands: build, run, set up' heading (0 = top, 1 = bottom)",0.17,,,median
+2026-11-10,anatomy,"median position of first 'Architecture and code layout' heading (0 = top, 1 = bottom)",0.22,,,median
+2026-11-10,anatomy,"median position of first 'Tech stack and dependencies' heading (0 = top, 1 = bottom)",0.24,,,median
+2026-11-10,anatomy,"median position of first 'Rules: dos and don'ts' heading (0 = top, 1 = bottom)",0.42,,,median
+2026-11-10,anatomy,"median position of first 'Environment and configuration' heading (0 = top, 1 = bottom)",0.5,,,median
+2026-11-10,anatomy,"median position of first 'Testing' heading (0 = top, 1 = bottom)",0.5,,,median
+2026-11-10,anatomy,"median position of first 'Code style and conventions' heading (0 = top, 1 = bottom)",0.56,,,median
+2026-11-10,anatomy,"median position of first 'Workflow: git, PRs, deploys' heading (0 = top, 1 = bottom)",0.59,,,median
+2026-11-10,tools,files naming at least one tool,0.8694493783303731,0.8485077733518921,0.887878636920132,share
+2026-11-10,tools,files naming git,0.37300177619893427,0.34523113770948777,0.40163603375950396,share
+2026-11-10,tools,files naming Claude Code,0.35346358792184723,0.32608229701390656,0.3818413623733916,share
+2026-11-10,tools,files naming npm,0.2655417406749556,0.2405754042967534,0.29210245072292373,share
+2026-11-10,tools,files naming docker,0.13943161634103018,0.1204218516015073,0.16089333452723853,share
+2026-11-10,tools,files naming MCP,0.13587921847246892,0.11709823853196011,0.15713630903647785,share
+2026-11-10,tools,files naming pytest,0.11545293072824156,0.09808044396440067,0.13544043188226668,share
+2026-11-10,tone,files where the text has a prohibition (never / don't / avoid ...),0.7424511545293073,0.7161151795184393,0.7671384022225765,share
+2026-11-10,tone,files where the text has a requirement (always / must / make sure),0.6101243339253997,0.5813080918337602,0.6381917035357855,share
+2026-11-10,tone,files where the text has softer advice (should),0.28063943161634103,0.25517505259373385,0.3075955163072519,share
+2026-11-10,tone,"files where the text shouts in ALL CAPS (IMPORTANT, NEVER, MUST ...)",0.14653641207815277,0.12708210467801057,0.16839435857135115,share
+2026-11-10,tone,files where the text bolds a directive (**never ...**),0.28152753108348133,0.2560350091187366,0.30850571942232613,share
+2026-11-10,tone,files where the text uses a warning emoji,0.04884547069271759,0.03771764259023436,0.06304126025065945,share
+2026-11-10,tone,files where the text addresses the reader as 'you',0.38898756660746003,0.3609349181071101,0.41779512688326725,share
+2026-11-10,tone,"files where the text uses generic agent words (agent, AI, assistant)",0.5825932504440497,0.5535562918578742,0.6110685546692849,share
+2026-11-10,tone,files where the text names Claude,0.2655417406749556,0.2405754042967534,0.29210245072292373,share
+2026-11-10,tone,files where the text names 2+ agent products,0.09591474245115453,0.08006283793336544,0.11451452583160837,share
+2026-11-10,tone,prohibition lines per requirement line (whole corpus),2.34,,,ratio
+2026-11-10,instructions,files saying never/don't 'add',0.15808170515097691,0.1379398033657704,0.18054873520459205,share
+2026-11-10,instructions,files saying never/don't 'use',0.13676731793960922,0.11792872275810726,0.15807598445040763,share
+2026-11-10,instructions,files saying never/don't 'commit',0.12255772646536411,0.10467634069639396,0.14300581227088924,share
+2026-11-10,instructions,files saying never/don't 'edit',0.0852575488454707,0.07032270230225095,0.1030127457817991,share
+2026-11-10,instructions,files saying never/don't 'create',0.07015985790408526,0.056656363016404046,0.08658637118633732,share
+2026-11-10,instructions,files saying always/must 'use',0.1216696269982238,0.10385069135958219,0.14206130196762404,share
+2026-11-10,instructions,files saying always/must 'run',0.0630550621669627,0.05028999304185716,0.07879146404026835,share
+2026-11-10,instructions,files saying always/must 'stay',0.06216696269982238,0.04949757953820298,0.07781371790384554,share
+2026-11-10,instructions,files saying always/must 'include',0.050621669626998225,0.03927554822535956,0.06502367389568821,share
+2026-11-10,instructions,files saying always/must 'pass',0.043516873889875664,0.03307177101062392,0.057066173989808,share
+2026-11-10,boilerplate,files starting from the /init default,0.19715808170515098,0.1749659227045213,0.22140964002922833,share
+2026-11-10,boilerplate,CLAUDE.md text starting from the /init default,0.34477379095163807,0.3090015679758118,0.3823955131058058,share
+2026-11-10,boilerplate,files with the create-next-app AGENTS.md block,0.023978685612788632,0.016531064006383142,0.0346633689123552,share
+2026-11-10,repos,median stars,0.0,,,median
+2026-11-10,repos,repos with fewer than 10 stars,0.8969804618117229,0.877853857890893,0.9134075012235172,share
+2026-11-10,repos,repos created in the year before the scrape,0.7539964476021315,0.7280047501938527,0.7782609068681638,share
+2026-11-10,repos,repos with a test directory at the root,0.38099467140319715,0.3530789768217838,0.4097196314079008,share
+2026-11-10,repos,repos with CI config at the root,0.5186500888099467,0.48945161092308964,0.5477217415185268,share
