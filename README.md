@@ -19,7 +19,7 @@ The project ships in two phases, each publishable on its own.
 |---|---|---|---|
 | 1 | `01_scrape.ipynb` | Sample repos via code search; fetch files and repo metadata | Done |
 | 1 | `02_clean.ipynb` | Resolve `CLAUDE.md` → `AGENTS.md` pointers, strip secrets, filter, dedup | Done |
-| 1 | `03_descriptive.ipynb` | Length, structure, section themes and their order, tools, tone, instructions, generated boilerplate | Done |
+| 1 | `03_descriptive.ipynb` | Length, structure, section themes, tools, tone, instructions, generated boilerplate | Done |
 | 2 | `04_clusters.ipynb` | Embeddings and clustering into file styles | Not started |
 | 2 | `05_features.ipynb` | Structured feature extraction | Not started |
 | 2 | `06_correlations.ipynb` | Joins, cross-tabs, regressions | Not started |

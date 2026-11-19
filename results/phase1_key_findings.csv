@@ -29,15 +29,6 @@ scraped,section,finding,value,ci_low,ci_high,kind
 2026-11-10,themes (no /init default),"files without the /init default with a section on: Workflow: git, PRs, deploys",0.35398230088495575,0.32348662836017766,0.38571374315837786,share
 2026-11-10,themes (no /init default),files without the /init default with a section on: Tech stack and dependencies,0.1902654867256637,0.16600950356634905,0.2171427996548296,share
 2026-11-10,themes (no /init default),files without the /init default with a section on: Environment and configuration,0.1504424778761062,0.12861878908153332,0.17522452455379692,share
-2026-11-10,anatomy,"median position of first 'Project overview and purpose' heading (0 = top, 1 = bottom)",0.0,,,median
-2026-11-10,anatomy,"median position of first 'Commands: build, run, set up' heading (0 = top, 1 = bottom)",0.17,,,median
-2026-11-10,anatomy,"median position of first 'Architecture and code layout' heading (0 = top, 1 = bottom)",0.22,,,median
-2026-11-10,anatomy,"median position of first 'Tech stack and dependencies' heading (0 = top, 1 = bottom)",0.24,,,median
-2026-11-10,anatomy,"median position of first 'Rules: dos and don'ts' heading (0 = top, 1 = bottom)",0.42,,,median
-2026-11-10,anatomy,"median position of first 'Environment and configuration' heading (0 = top, 1 = bottom)",0.5,,,median
-2026-11-10,anatomy,"median position of first 'Testing' heading (0 = top, 1 = bottom)",0.5,,,median
-2026-11-10,anatomy,"median position of first 'Code style and conventions' heading (0 = top, 1 = bottom)",0.56,,,median
-2026-11-10,anatomy,"median position of first 'Workflow: git, PRs, deploys' heading (0 = top, 1 = bottom)",0.59,,,median
 2026-11-10,tools,files naming at least one tool,0.8694493783303731,0.8485077733518921,0.887878636920132,share
 2026-11-10,tools,files naming git,0.37300177619893427,0.34523113770948777,0.40163603375950396,share
 2026-11-10,tools,files naming Claude Code,0.35346358792184723,0.32608229701390656,0.3818413623733916,share
