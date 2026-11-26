@@ -1,12 +1,12 @@
-# Dataset card notes (working draft)
+# Data collection and cleaning notes
 
-Running log of scraping and cleaning decisions, written as we go. Becomes the HuggingFace dataset card. Numbers below are from the full run (`data/raw/full_1250.parquet`, scraped 2026-11-10) after `02_clean`. The earlier 50-repo pilot used a different sampling design (star-stratified, 25% `AGENTS.md`-only quota) and is not part of the corpus.
+Record of every scraping and cleaning decision, with the limitations and biases of the sample. Numbers below are from the full run (`data/raw/full_1250.parquet`, scraped 2026-11-10) after `02_clean`. The earlier 50-repo pilot used a different sampling design (star-stratified, 25% `AGENTS.md`-only quota) and is not part of the corpus.
 
 ## What a row is
 One public GitHub repo, with one resolved instruction-file text.
 
 ## Scraping decisions
-- **Files in scope:** root-level `CLAUDE.md` and `AGENTS.md`. `AGENTS.md` was added with Kaiser's approval (2026-11-04). `.cursorrules`, `.windsurfrules`, `copilot-instructions.md` are out of scope for v1.
+- **Files in scope:** root-level `CLAUDE.md` and `AGENTS.md`. `AGENTS.md` was added with Kaiser's approval (2026-11-04). `.cursorrules`, `.windsurfrules`, `copilot-instructions.md` are out of scope.
 - **Resolution rule:** `CLAUDE.md` takes priority. `AGENTS.md` is used only when the repo has no `CLAUDE.md`, or its `CLAUDE.md` is a pointer file. `AGENTS.md` is a covariate in the analysis, not a separate research question (decided at check-in 1). `primary_file` records the repo's group; `resolved_from` records what the final text came from.
 - **Redirects:** a `CLAUDE.md` that is a symlink to `AGENTS.md`, or is under 500 characters and mentions `AGENTS.md` (this includes the `@AGENTS.md` import), is a pure pointer and resolves to the `AGENTS.md` text. A `CLAUDE.md` with its own content that imports `@AGENTS.md` is joined with it (`CLAUDE.md+AGENTS.md`). One hop only; other imports are not followed. Symlinks come back from the contents API as tiny text files, so they are caught by the same rule.
 - **Population and sampling:** GitHub code search, `filename:<file> path:/ size:<lo>..<hi>`, over 23 log-spaced file-size bins (0 B to 1 MB). Each bin's `total_count` gives the size distribution of the searchable population; candidates are allocated to bins in proportion to it, so file-length statistics are not distorted by the bucketing used to get past the 1,000-result cap. The two file types are allocated in proportion to their total counts (about 643k each, approximate), so the `AGENTS.md`-only share is natural, not a quota. Within a bin, random pages of the (at most 1,000) visible results are sampled. 1,250 candidates were drawn; 1,246 unique repos resulted.
@@ -15,7 +15,7 @@ One public GitHub repo, with one resolved instruction-file text.
 - **Repo signals:** `has_tests` = a test-like directory at the root; `has_ci` = a CI config at the root.
 
 ## Cleaning decisions
-- **Secrets:** regex redaction of known key formats (GitHub, AWS, Anthropic, OpenAI, Slack, Google, Stripe, JWT, private keys) and `key = "value"` assignments, replaced with `[REDACTED:<type>]`. Placeholders such as `your-api-key-here` are kept. Best effort, not a guarantee. The detector was checked on synthetic keys. Result: 2 redactions (1 OpenAI-format key, 1 assigned secret). The released data contains only the redacted text (`content_clean`), never the raw text.
+- **Secrets:** regex redaction of known key formats (GitHub, AWS, Anthropic, OpenAI, Slack, Google, Stripe, JWT, private keys) and `key = "value"` assignments, replaced with `[REDACTED:<type>]`. Placeholders such as `your-api-key-here` are kept. Best effort, not a guarantee. The detector was checked on synthetic keys. Result: 2 redactions (1 OpenAI-format key, 1 assigned secret). The analysis uses only the redacted text (`content_clean`), never the raw text.
 - **Tiny files:** under 100 characters after stripping whitespace are dropped and logged (5).
 - **Non-English:** files with over 20% non-ASCII letters are excluded and logged (103). Decided at check-in 1. This is a heuristic, not language ID.
 - **Dedup:** exact (normalized hash) and near (word 5-gram Jaccard of at least 0.85); the most-starred repo is kept (12 exact duplicates, 0 near).
@@ -32,8 +32,8 @@ One public GitHub repo, with one resolved instruction-file text.
 - Stars: median 0, mean 20, max 5,330. Bins: 1,010 in 0-10, 91 in 10-100, 18 in 100-1000, 7 above 1000.
 - Size-bin check: the sample's share per size bin matches the population share to within about 0.1 percentage points.
 
-## Structure and tools (Phase 1, from `03_descriptive`)
-All headline numbers, with 95% Wilson intervals for shares, are in `results/phase1_key_findings.csv`.
+## Structure and tools (from `03_descriptive`)
+All headline numbers, with 95% Wilson intervals for shares, are in `results/key_findings.csv`.
 - Structure: median 8 headings and 6 level-2 sections per file; about 40% of prose lines are bullets; 1.5% of files have no headings; 26.6% contain a markdown table.
 - Code: median 1 fenced code block, and 41.7% of files have none. Almost all of those still use inline code, so only 3.5% contain no code of any kind. Median code share is 6% of non-blank lines.
 - Section themes (keyword rules on h1–h3 heading titles; a file can hit several): architecture and code layout 59%, commands (build/run/set up) 58%, code style and conventions 48%, rules (dos and don'ts) 44%, workflow (git/PRs/deploys) 36%, project overview 35%, testing 32%, tech stack 22%, environment and configuration 20%. 11.3% of files match none.
@@ -55,4 +55,4 @@ All headline numbers, with 95% Wilson intervals for shares, are in `results/phas
 - Joined texts are the `CLAUDE.md` text followed by the `AGENTS.md` text. Claude Code expands an `@AGENTS.md` import in place, so content is right but order is approximate. All 22 imports were checked to be in prose, not inside code blocks.
 - Section themes, tool mentions, tone and instructions are keyword rules, not reading. A rules section titled "Notes" is missed, naming a tool is not using it, and *never* inside a quotation counts as a prohibition.
 - No real symlink objects were observed (the API returned them as text), so symlink handling was only exercised through the text-pointer path.
-- File contents keep their original repo licenses; dataset metadata is CC-BY.
+- File contents retain their original repositories' licenses; the dataset itself is not redistributed.

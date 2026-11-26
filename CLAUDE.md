@@ -1,83 +1,50 @@
 # CLAUDE.md Corpus Study
 
 ## Project
-Empirical study of `CLAUDE.md` (and `AGENTS.md`) files scraped from public GitHub repos. Independent research project mentored by Prof. Kaiser Pister (UW–Madison) for an LOR. Aim: build the first public dataset and taxonomy of these files, and look at how patterns in them relate to repo characteristics.
+Empirical study of `CLAUDE.md` (and `AGENTS.md`) files scraped from public GitHub repos. Independent research project mentored by Prof. Kaiser Pister (UW–Madison) for an LOR. Aim: describe what developers put in these files, from a sample of about 1,000 public repos.
 
-## Research questions
-1. **Descriptive** — what do developers actually put in `CLAUDE.md` files? Length, structure, sections, tools mentioned, code vs. prose.
-2. **Structural** — do files cluster into recognizable styles (build cheat sheet, architecture overview, style enforcer, persona setter, guardrails, etc.)? Expect ~10–20 clusters.
-3. **Correlational** — do specific patterns line up with repo characteristics (language, activity, test presence)? Framed as associations, not causes.
+## Research question
+What do developers actually put in `CLAUDE.md` files? Length, structure, sections, tools mentioned, code vs. prose, and how the files talk to the agent. Descriptive only: no causal claims.
 
 ## Method
 - Scrape ~1,000 repos from public GitHub via the code-search API, getting past the 1k-result cap with file-size buckets sampled in proportion to the population (code search has no star or date qualifier, so stars and dates are covariates). The sample is mostly repos with a `CLAUDE.md`, plus `AGENTS.md`-only repos as the fallback group (`primary_file` per repo; no fixed quota, they appear in their natural proportion); fetch both files when a repo has both
 - Save file content + repo metadata (stars, forks, language, created_at, last_push_at, size, has_ci, has_tests)
-- Dedupe, clean, descriptive stats (length, structure, section themes, tools, generated boilerplate; shares with 95% CIs)
-- Embed each file with OpenAI `text-embedding-3-large` (chosen over sentence-transformers for quality, 2026-11-16; file text is sent to OpenAI's API, which the dataset card must say)
-- Cluster with HDBSCAN (primary) and k-means (robustness check); hand-label clusters
-- Extract structured features per file: `has_persona`, `has_donts`, `has_commands`, `has_file_paths`, `mentioned_tools`, section counts, code-block counts
-- Join file features with repo metadata; cross-tabulate; run regressions (OLS for continuous outcomes, logistic for binary) with controls for language, repo age, size
+- Dedupe, clean, descriptive stats (length, structure, section themes, tools, tone, instructions, generated boilerplate; shares with 95% CIs)
 
-## Project phases
-The project ships in two phases (decided 2026-11-19). Each phase ends in something publishable on its own.
-
-**Phase 1: the corpus and what is in it (RQ1).**
-- Notebooks: `01_scrape.ipynb`, `02_clean.ipynb`, `03_descriptive.ipynb`
-- Deliverable: a blog post built only from Phase 1 results. Every number in it comes from `03_descriptive` (headline table in `results/phase1_key_findings.csv`, figures in `figures/`)
-- Status: notebooks done; blog post next
-
-**Phase 2: styles and associations (RQ2, RQ3).**
-- Notebooks: `04_clusters.ipynb`, `05_features.ipynb`, `06_correlations.ipynb`
-- Deliverables: public dataset on HuggingFace (`claude-md-corpus`) with a proper dataset card; a second writeup on the clusters and correlations
-
-All six notebooks live in the public GitHub repo. Writeups go on the personal site (arnavbatra.com) or another venue decided at publish time.
+## Deliverables
+- Notebooks: `01_scrape.ipynb`, `02_clean.ipynb`, `03_descriptive.ipynb`, in the public GitHub repo
+- A blog post written from `03_descriptive` (headline table in `results/key_findings.csv`, figures in `figures/`)
 
 ## Tech stack
 - Python 3.11+
 - Data: `pandas`, Parquet, SQLite
 - Scraping: `requests` + GitHub REST and code-search APIs; auth via personal access token
-- NLP: `openai` embeddings (`text-embedding-3-large`)
-- Clustering: `hdbscan`, `scikit-learn` (k-means), `umap-learn` for 2D viz
-- Stats: `statsmodels` for regressions, `scipy.stats` for tests
-- Viz: `matplotlib`, `seaborn`, `plotly`
-- Release: `datasets` library for HuggingFace upload
+- Viz: `matplotlib`, `seaborn`
 - Notebooks: Jupyter
 
 ## Scope guardrails
-- **In scope v1**: only `CLAUDE.md` and `AGENTS.md` files at repo root (`AGENTS.md` added with Kaiser's approval, 2026-11-04); ~1k unique repos after dedup (confirmed with Kaiser); non-English files excluded; `AGENTS.md` is a covariate (`primary_file` / `resolved_from`), not a fourth research question; descriptive + correlational analysis
+- **In scope**: only `CLAUDE.md` and `AGENTS.md` files at repo root (`AGENTS.md` added with Kaiser's approval, 2026-11-04); ~1k unique repos after dedup (confirmed with Kaiser); non-English files excluded; `AGENTS.md` is a covariate (`primary_file` / `resolved_from`), not a separate research question; descriptive analysis
 - **Resolution rule (one instruction file per repo)**: `CLAUDE.md` takes priority. Go to `AGENTS.md` only when the repo has no `CLAUDE.md`, or its `CLAUDE.md` is a pointer file. Record which one was used in `resolved_from`.
 - **Redirects**: if a `CLAUDE.md` points to `AGENTS.md` (symlink, `@AGENTS.md` import, or a near-empty "see AGENTS.md" pointer), follow that one hop. Store `content_raw`, `redirects_to`, and `content_resolved`; analyze on resolved content and count each resolved text once. Do not chase other imports.
-- **Out of scope v1**: `.cursorrules`, `.windsurfrules`, `copilot-instructions.md`; web dashboard; LLM-based feature extraction (regex and rules first); causal claims; fine-tuning or training a model
-- **Hard no**: scope creep. If a feature isn't in this doc, it's a v2 candidate, not a v1 addition.
+- **Out of scope**: `.cursorrules`, `.windsurfrules`, `copilot-instructions.md`; web dashboard; LLM-based feature extraction (the study uses regex and rules); causal claims; fine-tuning or training a model
+- **Fixed scope**: anything not listed in this doc is outside the study.
 
 ## Timeline
-~7 hrs/week over 10 weeks (~70 hrs total).
-
-Phase 1
-1. Weeks 1–2: scraper + cleaned data (done)
-2. Week 3: first check-in with Kaiser; descriptive stats (done)
-3. Next: Phase 1 blog post
-
-Phase 2
-4. Weeks 4–5: embedding, clustering, feature extraction
-5. Week 6: repo metadata joined
-6. Week 7: second check-in with Kaiser
-7. Week 8: correlational analysis
-8. Week 9: Phase 2 writeup + HuggingFace release
-9. Week 10: buffer + third check-in
+~7 hrs/week. Scraper and cleaned data in weeks 1–2; descriptive analysis and the first check-in with Kaiser in week 3; then the blog post.
 
 ## Working style
 - Notebooks first; refactor to scripts only when a step is stable
 - Checkpoint data to Parquet between every stage so no step has to re-run upstream work
 - Commit after every working step; use branches for experiments
 - Prefer boring, well-tested libraries over clever ones
-- Document every scraping decision in the dataset card as you go, not at the end
+- Document every scraping decision in `DATA_NOTES.md` as you go, not at the end
 - No premature optimization — if the full pipeline runs in under an hour on 1k files, that's fine
 
 ## Ethical and legal
 - Public repos only; respect GitHub rate limits
 - Strip any accidentally-committed secrets (API keys, tokens) during cleaning
-- Dataset card documents limitations and biases (English-dominant, public-repo-only, snapshot in time)
-- File content retains original repo licenses; dataset metadata released CC-BY
+- `DATA_NOTES.md` documents limitations and biases (English-dominant, public-repo-only, snapshot in time)
+- File contents retain their original repositories' licenses; the dataset itself is not redistributed.
 
 ## Owner
 Arnav Batra — UW–Madison, triple major CS/DS/Econ, class of 2027. GitHub: TheArnavBatra. Site: arnavbatra.com.
